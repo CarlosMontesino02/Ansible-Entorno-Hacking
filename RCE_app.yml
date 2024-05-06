@@ -1,0 +1,27 @@
+---
+- name: Preparación de vulnerabilidades SRV1
+  hosts: SRV1
+  become: yes
+  remote_user: anpipada
+
+  tasks:
+  - name: Subir nuestra app
+    ansible.builtin.copy:
+      src: ./web/index.html
+      dest: /var/www/html/index.html
+
+  - name: Subir nuestra app
+    ansible.builtin.copy:
+      src: ./web/ping.php
+      dest: /var/www/html/ping.php
+
+  - name: Establecer el bit SUID en el binario de find
+    file:
+      path: /usr/bin/find
+      mode: "4755"
+
+  handlers:
+  - name: restart apache2
+    service:
+      name: apache2
+      state: restarted

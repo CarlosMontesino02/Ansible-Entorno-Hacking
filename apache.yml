@@ -1,0 +1,25 @@
+---
+- name: Instalación y configuración de apache y php vulnerable
+  hosts: dmz
+  become: yes
+  remote_user: anpipada
+
+  tasks:
+  - name: Instala apache latest.
+    apt:
+      name: apache2
+      update_cache: yes
+      state: latest
+
+  handlers:
+  - name: restart apache2
+    service:
+      name: apache2
+      state: restarted
+
+  tasks:
+  - name: Instala php latest.
+    apt:
+      name: php
+      update_cache: yes
+      state: latest
