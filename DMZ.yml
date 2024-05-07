@@ -17,7 +17,6 @@
       name: apache2
       state: restarted
 
-  tasks:
   - name: Instala php latest.
     apt:
       name: php
