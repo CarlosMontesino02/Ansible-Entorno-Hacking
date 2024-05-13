@@ -3,25 +3,48 @@
   hosts: tom
   become: true
   tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
     - name: Install Java
-      yum:
-        name: java-1.8.0-openjdk
-        state: present
-    - name: Download Tomcat
-      get_url:
-        url: "https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.54/bin/apache-tomcat-9.0.54.tar.gz"
-        dest: /opt/
-    - name: Extract Tomcat
-      unarchive:
-        src: /opt/apache-tomcat-9.0.54.tar.gz
-        dest: /opt/
-        remote_src: yes
+      apt:
+        name: openjdk-11-jdk
+        state: latest
+    - name: Install tomcat
+      apt:
+        name: tomcat9
+        state: latest
+    - name: Install tomcat
+      apt:
+        name: tomcat9-docs
+        state: latest
+    - name: Install tomcat
+      apt:
+        name: tomcat9-examples
+        state: latest
+    - name: Install tomcat
+      apt:
+        name: tomcat9-admin
+        state: latest        
+    #- name: Download Tomcat
+    #  get_url:
+    #    url: "https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.54/bin/apache-tomcat-9.0.54.tar.gz"
+    #    dest: /opt/
+    #- name: Extract Tomcat
+    #  unarchive:
+    #    src: /opt/apache-tomcat-9.0.54.tar.gz
+    #    dest: /opt/
+    #    remote_src: yes
     - name: COnfiguración de usuarios
       ansible.builtin.copy:
         src: ./web/USER.xml
-        dest: /opt/apache-tomcat-9.0.54/conf/tomcat-users.xml
+        dest: /etc/tomcat9/tomcat-users.xml
+    - name: Accesibilidad
+      ansible.builtin.copy:
+        src: ./web/context.xml
+        dest: /etc/tomcat9/context.xml
     - name: Start Tomcat Service
       service:
-        name: tomcat
-        state: started
+        name: tomcat9
+        state: restarted
         enabled: yes

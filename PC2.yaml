@@ -33,6 +33,6 @@ ansible.windows.win_service:
   state: restarted
 
 - name: Reiniciamos servicios
-ansible.windows.win_service:
+  ansible.windows.win_service:
   name: mysqld
   state: restarted
