@@ -1,25 +1,38 @@
 ---
 - name: Preparación de vulnerabilidades PC2
-  hosts: PC2
+  hosts: rdp
   become: yes
   remote_user: anpipada
 
   tasks:
 # Install/uninstall with win_command
+- name: Descaga XAMP
+  win_msi:
+    path: ./deb/xampp-portable-win32-7.0.4-0-VC14-installer.msi
+
 - name: Download the 7-Zip package
   win_get_url:
     url: https://www.7-zip.org/a/7z1701-x64.msi
     dest: C:\temp\7z.msi
 
-- name: Check if 7-Zip is already installed
-  win_reg_stat:
-    name: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{23170F69-40C1-2702-1701-000001000000}
-  register: 7zip_installed
-
 - name: Ensure 7-Zip is installed through win_command
   win_command: C:\Windows\System32\msiexec.exe /i C:\temp\7z.msi /qn /norestart
   when: 7zip_installed.exists == false
 
-- name: Ensure 7-Zip is uninstalled through win_command
-  win_command: C:\Windows\System32\msiexec.exe /x {23170F69-40C1-2702-1701-000001000000} /qn /norestart
-  when: 7zip_installed.exists == true
+- name: Desplegar wordpress
+  ansible.windows.win_copy:
+    src: ./deb/wordpress-4.6.zip
+    dest: C:\xampp\htdocs
+
+- name: descomprimir la pp
+  win_command: tar -xf C:\xampp\htdocs\wordpress-4.6.zip
+
+- name: Reiniciamos servicios
+ansible.windows.win_service:
+  name: httpd
+  state: restarted
+
+- name: Reiniciamos servicios
+ansible.windows.win_service:
+  name: mysqld
+  state: restarted

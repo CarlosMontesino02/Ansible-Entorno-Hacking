@@ -1,27 +1,27 @@
 ---
-- name: Preparación de vulnerabilidades SRV1
-  hosts: SRV1
-  become: yes
-  remote_user: anpipada
-
+- name: Install Tomcat
+  hosts: tom
+  become: true
   tasks:
-  - name: Subir nuestra app
-    ansible.builtin.copy:
-      src: ./web/index.html
-      dest: /var/www/html/index.html
-
-  - name: Subir nuestra app
-    ansible.builtin.copy:
-      src: ./web/ping.php
-      dest: /var/www/html/ping.php
-
-  - name: Establecer el bit SUID en el binario de find
-    file:
-      path: /usr/bin/find
-      mode: "4755"
-
-  handlers:
-  - name: restart apache2
-    service:
-      name: apache2
-      state: restarted
+    - name: Install Java
+      yum:
+        name: java-1.8.0-openjdk
+        state: present
+    - name: Download Tomcat
+      get_url:
+        url: "https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.54/bin/apache-tomcat-9.0.54.tar.gz"
+        dest: /opt/
+    - name: Extract Tomcat
+      unarchive:
+        src: /opt/apache-tomcat-9.0.54.tar.gz
+        dest: /opt/
+        remote_src: yes
+    - name: COnfiguración de usuarios
+      ansible.builtin.copy:
+        src: ./web/USER.xml
+        dest: /opt/apache-tomcat-9.0.54/conf/tomcat-users.xml
+    - name: Start Tomcat Service
+      service:
+        name: tomcat
+        state: started
+        enabled: yes
