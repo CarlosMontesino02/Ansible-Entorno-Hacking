@@ -20,6 +20,21 @@
       path: /usr/bin/find
       mode: "4755"
 
+  - name: Creates directory
+    ansible.builtin.file:
+      path: /var/www/html/ayuda
+      state: directory
+
+  - name: Ejemplo de ayuda
+    ansible.builtin.copy:
+      src: ./web/bot.txt
+      dest: /var/www/html/ayuda/bot.txt
+
+  - name: Subir nuestra app
+    ansible.builtin.copy:
+      src: ./web/lfi.php
+      dest: /var/www/html/lfi.php
+
   handlers:
   - name: restart apache2
     service:

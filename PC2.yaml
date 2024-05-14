@@ -1,7 +1,6 @@
 ---
 - name: Preparación de vulnerabilidades PC2
   hosts: rdp
-  become: yes
   remote_user: anpipada
 
   tasks:
@@ -28,11 +27,11 @@
   win_command: tar -xf C:\xampp\htdocs\wordpress-4.6.zip
 
 - name: Reiniciamos servicios
-ansible.windows.win_service:
-  name: httpd
-  state: restarted
-
-- name: Reiniciamos servicios
   ansible.windows.win_service:
-  name: mysqld
-  state: restarted
+    name: httpd
+    state: restarted
+
+- name: Reiniciamos servicios de MySQL
+  ansible.windows.win_service:
+    name: mysqld
+    state: restarted
