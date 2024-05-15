@@ -9,6 +9,7 @@ $archivo = $_GET['archivo'];
 if (file_exists($directorio_ayuda . $archivo)) {
     // Mostrar el contenido del archivo de ayuda
     echo "<h1>Contenido de la ayuda:</h1>";
+    echo '<a href="./lfi.php?archivo=bot.txt">Ayuda para bots</a>';
     echo "<pre>";
     include($directorio_ayuda . $archivo);
     echo "</pre>";
