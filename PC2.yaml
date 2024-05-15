@@ -3,25 +3,25 @@
   hosts: rdp
   gather_facts: no
   tasks:
-#    - name: Descargar el instalador de XAMPP
-#      win_get_url:
-#        url: https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.28/xampp-windows-x64-7.4.28-1-VC15-installer.exe/download
-#        dest: C:\temp\xampp-installer.exe
-#
-#    - name: Instalar XAMPP
-#      win_command: C:\temp\xampp-installer.exe --mode unattended
-#      args:
-#        creates: C:\xampp
-#
-#    - name: Desplegar wordpress
-#      win_copy:
-#        src: ./web/wordpress-4.6.zip
-#        dest: C:\xampp\htdocs\wordpress-4.6.zip
-#    - name: Establecer la variable de entorno PATH
-#      win_path:
-#        elements:
-#          - "C:\\Program Files\\7-Zip\\"
-#        state: present
+    - name: Descargar el instalador de XAMPP
+      win_get_url:
+        url: https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.28/xampp-windows-x64-7.4.28-1-VC15-installer.exe/download
+        dest: C:\temp\xampp-installer.exe
+
+    - name: Instalar XAMPP
+      win_command: C:\temp\xampp-installer.exe --mode unattended
+      args:
+        creates: C:\xampp
+
+    - name: Desplegar wordpress
+      win_copy:
+        src: ./web/wordpress-4.6.zip
+        dest: C:\xampp\htdocs\wordpress-4.6.zip
+    - name: Establecer la variable de entorno PATH
+      win_path:
+        elements:
+          - "C:\\Program Files\\7-Zip\\"
+        state: present
 
     - name: Descomprimir la app
       win_command: 7z x "C:\xampp\htdocs\wordpress-4.6.zip" -oC:\xampp\htdocs\"
