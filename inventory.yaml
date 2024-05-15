@@ -7,7 +7,7 @@ redinterna:
 #      ansible_host: 10.10.10.3
 #      ansible_ssh_user: anpipada
     rdp:
-      ansible_host: 192.168.0.31
+      ansible_host: 172.26.0.236
       ansible_connection: winrm
       ansible_winrm_transport: ntlm
       ansible_user: anpipada
