@@ -15,7 +15,7 @@ redinterna:
       ansible_winrm_server_cert_validation: ignore
 dmz:
   hosts:
-    SRV1:
+    servidor:
       ansible_host: 10.10.20.2
       ansible_ssh_user: anpipada
       http_port: 80
