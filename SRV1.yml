@@ -5,6 +5,13 @@
   remote_user: anpipada
 
   tasks:
+  
+  - name: Instala apache latest.
+    apt:
+      name: apache2
+      update_cache: yes
+      state: latest
+      
   - name: Subir nuestra app
     ansible.builtin.copy:
       src: ./web/index.html
